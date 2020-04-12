@@ -1,12 +1,20 @@
-import _ from 'lodash'
-
-import { FETCH_RECORDINGS, ADD_RECORDING } from '../actions'
+import { TOGGLE_RECORDING } from '../actions'
 
 export default function(state={}, action){
+
  switch(action.type){
-  case ADD_RECORDING:
-    return _.mapKeys(action.payload.data.recordings, 'id');
-  default:
+  case TOGGLE_RECORDING:
+    if( state.recordState == 'recording'){
+      console.log('recording->stopped')
+      return {...state, ['recordingState']:'stopped'}
+    }else if( state.recordState == 'stopped'){
+      console.log('stopped->recording')
+      return {...state, ['recordingState']:'recording'}
+    }else{
+      console.log('default')
+      return {...state, ['recordingState']:'recording'}
+    }
+  default: 
     return state;
  } 
 }

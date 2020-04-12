@@ -1,43 +1,31 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { playClips, stopClips } from '../actions';
+import { togglePlayback, toggleRecording } from '../actions';
 
 class Controls extends Component{
 
   render(){
-
-    let boundTogglePlaystate = this.togglePlayState.bind(this);
-
+    console.log(this.props.controlState)
     return(
       <div className="controls">
-        <p>{this.props.playState}</p>
-        <button onClick={ boundTogglePlaystate }>Play</button>
-        <button>Record</button>
+        <p>{this.props.controlState.playState}</p>
+        <button onClick={ this.props.togglePlayback }>Play</button>
+        <p>{ this.props.controlState.recordingState}</p>
+        <button onClick={ this.props.toggleRecording}>Record</button>
       </div>
     )
-  }
-
-  togglePlayState(){
-    switch(this.props.playState){
-      case 'playing':
-        this.props.stopClips()
-      case 'stopped':
-        this.props.playClips()
-      default:
-        this.props.stopClips()
-    }
   }
 
 }
 
 function mapStateToProps( state ){
   return{
-    playState: state.controls.state
+    controlState: state.controls,
   }
 }
 
 export default connect( mapStateToProps, {
- playClips,
- stopClips
+ togglePlayback,
+ toggleRecording
 })(Controls);
